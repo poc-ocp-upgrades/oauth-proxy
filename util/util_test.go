@@ -53,6 +53,8 @@ Xbl3Ix0t2+sqi0hpEF/iVFdCp5TXiicSnZCtePzCfHePAEfbh5hS0bq8Lbb9DZ6d
 func makeTestCertFile(t *testing.T, pem, dir string) *os.File {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := ioutil.TempFile(dir, "test-certfile")
 	if err != nil {
 		t.Errorf("unexpected error %v", err)
@@ -64,6 +66,8 @@ func makeTestCertFile(t *testing.T, pem, dir string) *os.File {
 	return file
 }
 func TestGetCertPool(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_, err := GetCertPool([]string(nil))

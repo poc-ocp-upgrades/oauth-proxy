@@ -9,6 +9,8 @@ import (
 func TestEncodeAndDecodeAccessToken(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const secret = "0123456789abcdefghijklmnopqrstuv"
 	const token = "my access token"
 	c, err := NewCipher([]byte(secret))
@@ -21,6 +23,8 @@ func TestEncodeAndDecodeAccessToken(t *testing.T) {
 	assert.Equal(t, token, decoded)
 }
 func TestEncodeAndDecodeAccessTokenB64(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	const secret_b64 = "A3Xbr6fu6Al0HkgrP1ztjb-mYiwmxgNPP-XbNsz1WBk="

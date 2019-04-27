@@ -23,6 +23,8 @@ import (
 func init() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 }
 
@@ -34,6 +36,8 @@ type WebSocketOrRestHandler struct {
 func (h *WebSocketOrRestHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Header.Get("Upgrade") == "websocket" {
 		h.wsHandler.ServeHTTP(w, r)
 	} else {
@@ -41,6 +45,8 @@ func (h *WebSocketOrRestHandler) ServeHTTP(w http.ResponseWriter, r *http.Reques
 	}
 }
 func TestWebSocketProxy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	handler := WebSocketOrRestHandler{restHandler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -100,6 +106,8 @@ func TestWebSocketProxy(t *testing.T) {
 func TestNewReverseProxy(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		hostname, _, _ := net.SplitHostPort(r.Host)
@@ -122,6 +130,8 @@ func TestNewReverseProxy(t *testing.T) {
 	}
 }
 func TestEncodedSlashes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var seen string
@@ -147,6 +157,8 @@ func TestEncodedSlashes(t *testing.T) {
 	}
 }
 func TestRobotsTxt(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	opts := NewOptions()
@@ -177,9 +189,13 @@ type TestProvider struct {
 func NewTestProvider(provider_url *url.URL, email_address string) *TestProvider {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TestProvider{ProviderData: &providers.ProviderData{ProviderName: "Test Provider", ConfigLoginURL: &url.URL{Scheme: "http", Host: provider_url.Host, Path: "/oauth/authorize"}, ConfigRedeemURL: &url.URL{Scheme: "http", Host: provider_url.Host, Path: "/oauth/token"}, ProfileURL: &url.URL{Scheme: "http", Host: provider_url.Host, Path: "/api/v1/profile"}, Scope: "profile.email"}, EmailAddress: email_address}
 }
 func (tp *TestProvider) GetEmailAddress(session *providers.SessionState) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return tp.EmailAddress, nil
@@ -187,9 +203,13 @@ func (tp *TestProvider) GetEmailAddress(session *providers.SessionState) (string
 func (tp *TestProvider) ValidateSessionState(session *providers.SessionState) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tp.ValidToken
 }
 func TestBasicAuthPassword(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	provider_server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -267,6 +287,8 @@ type PassAccessTokenTestOptions struct{ PassAccessToken bool }
 func NewPassAccessTokenTest(opts PassAccessTokenTestOptions) *PassAccessTokenTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &PassAccessTokenTest{}
 	t.provider_server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%#v", r)
@@ -306,9 +328,13 @@ func NewPassAccessTokenTest(opts PassAccessTokenTestOptions) *PassAccessTokenTes
 func (pat_test *PassAccessTokenTest) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pat_test.provider_server.Close()
 }
 func (pat_test *PassAccessTokenTest) getCallbackEndpoint() (http_code int, cookie string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	rw := httptest.NewRecorder()
@@ -321,6 +347,8 @@ func (pat_test *PassAccessTokenTest) getCallbackEndpoint() (http_code int, cooki
 	return rw.Code, rw.HeaderMap["Set-Cookie"][1]
 }
 func (pat_test *PassAccessTokenTest) getRootEndpoint(cookie string) (http_code int, access_token string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	cookieName := pat_test.proxy.CookieName
@@ -349,6 +377,8 @@ func (pat_test *PassAccessTokenTest) getRootEndpoint(cookie string) (http_code i
 func TestForwardAccessTokenUpstream(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pat_test := NewPassAccessTokenTest(PassAccessTokenTestOptions{PassAccessToken: true})
 	defer pat_test.Close()
 	code, cookie := pat_test.getCallbackEndpoint()
@@ -363,6 +393,8 @@ func TestForwardAccessTokenUpstream(t *testing.T) {
 	assert.Equal(t, "my_auth_token", payload)
 }
 func TestDoNotForwardAccessTokenUpstream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pat_test := NewPassAccessTokenTest(PassAccessTokenTestOptions{PassAccessToken: false})
@@ -390,6 +422,8 @@ const signInRedirectPattern = `<input type="hidden" name="rd" value="(.*)">`
 func NewSignInPageTest() *SignInPageTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var sip_test SignInPageTest
 	sip_test.opts = testOptions()
 	sip_test.proxy = NewOAuthProxy(sip_test.opts, func(email string) bool {
@@ -401,12 +435,16 @@ func NewSignInPageTest() *SignInPageTest {
 func (sip_test *SignInPageTest) GetEndpoint(endpoint string) (int, string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rw := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", endpoint, strings.NewReader(""))
 	sip_test.proxy.ServeHTTP(rw, req)
 	return rw.Code, rw.Body.String()
 }
 func TestSignInPageIncludesTargetRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sip_test := NewSignInPageTest()
@@ -422,6 +460,8 @@ func TestSignInPageIncludesTargetRedirect(t *testing.T) {
 	}
 }
 func TestSignInPageDirectAccessRedirectsToRoot(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sip_test := NewSignInPageTest()
@@ -450,6 +490,8 @@ type ProcessCookieTestOpts struct{ provider_validate_cookie_response bool }
 func NewProcessCookieTest(opts ProcessCookieTestOpts) *ProcessCookieTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var pc_test ProcessCookieTest
 	pc_test.opts = NewOptions()
 	pc_test.opts.Upstreams = []string{"http://localhost:8080"}
@@ -474,14 +516,20 @@ func NewProcessCookieTest(opts ProcessCookieTestOpts) *ProcessCookieTest {
 func NewProcessCookieTestWithDefaults() *ProcessCookieTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewProcessCookieTest(ProcessCookieTestOpts{provider_validate_cookie_response: true})
 }
 func (p *ProcessCookieTest) MakeCookie(value string, ref time.Time) *http.Cookie {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.proxy.MakeSessionCookie(p.req, value, p.opts.CookieExpire, ref)
 }
 func (p *ProcessCookieTest) SaveSession(s *providers.SessionState, ref time.Time) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	value, err := p.proxy.provider.CookieForSession(s, p.proxy.CookieCipher)
@@ -494,9 +542,13 @@ func (p *ProcessCookieTest) SaveSession(s *providers.SessionState, ref time.Time
 func (p *ProcessCookieTest) LoadCookiedSession() (*providers.SessionState, time.Duration, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.proxy.LoadCookiedSession(p.req)
 }
 func TestLoadCookiedSession(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc_test := NewProcessCookieTestWithDefaults()
@@ -511,6 +563,8 @@ func TestLoadCookiedSession(t *testing.T) {
 func TestProcessCookieNoCookieError(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc_test := NewProcessCookieTestWithDefaults()
 	session, _, err := pc_test.LoadCookiedSession()
 	assert.Equal(t, "http: named cookie not present", err.Error())
@@ -519,6 +573,8 @@ func TestProcessCookieNoCookieError(t *testing.T) {
 	}
 }
 func TestProcessCookieRefreshNotSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc_test := NewProcessCookieTestWithDefaults()
@@ -536,6 +592,8 @@ func TestProcessCookieRefreshNotSet(t *testing.T) {
 func TestProcessCookieFailIfCookieExpired(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc_test := NewProcessCookieTestWithDefaults()
 	pc_test.proxy.CookieExpire = time.Duration(24) * time.Hour
 	reference := time.Now().Add(time.Duration(25) * time.Hour * -1)
@@ -548,6 +606,8 @@ func TestProcessCookieFailIfCookieExpired(t *testing.T) {
 	}
 }
 func TestProcessCookieFailIfRefreshSetAndCookieExpired(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	pc_test := NewProcessCookieTestWithDefaults()
@@ -565,11 +625,15 @@ func TestProcessCookieFailIfRefreshSetAndCookieExpired(t *testing.T) {
 func NewAuthOnlyEndpointTest() *ProcessCookieTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc_test := NewProcessCookieTestWithDefaults()
 	pc_test.req, _ = http.NewRequest("GET", pc_test.opts.ProxyPrefix+"/auth", nil)
 	return pc_test
 }
 func TestAuthOnlyEndpointAccepted(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	test := NewAuthOnlyEndpointTest()
@@ -583,6 +647,8 @@ func TestAuthOnlyEndpointAccepted(t *testing.T) {
 func TestAuthOnlyEndpointUnauthorizedOnNoCookieSetError(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := NewAuthOnlyEndpointTest()
 	test.proxy.ServeHTTP(test.rw, test.req)
 	assert.Equal(t, http.StatusUnauthorized, test.rw.Code)
@@ -590,6 +656,8 @@ func TestAuthOnlyEndpointUnauthorizedOnNoCookieSetError(t *testing.T) {
 	assert.Equal(t, "unauthorized request\n", string(bodyBytes))
 }
 func TestAuthOnlyEndpointUnauthorizedOnExpiration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	test := NewAuthOnlyEndpointTest()
@@ -605,6 +673,8 @@ func TestAuthOnlyEndpointUnauthorizedOnExpiration(t *testing.T) {
 func TestAuthOnlyEndpointUnauthorizedOnEmailValidationFailure(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := NewAuthOnlyEndpointTest()
 	startSession := &providers.SessionState{Email: "michael.bland@gsa.gov", AccessToken: "my_access_token"}
 	test.SaveSession(startSession, time.Now())
@@ -615,6 +685,8 @@ func TestAuthOnlyEndpointUnauthorizedOnEmailValidationFailure(t *testing.T) {
 	assert.Equal(t, "unauthorized request\n", string(bodyBytes))
 }
 func TestAuthOnlyEndpointSetXAuthRequestHeaders(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var pc_test ProcessCookieTest
@@ -635,6 +707,8 @@ func TestAuthOnlyEndpointSetXAuthRequestHeaders(t *testing.T) {
 	assert.Equal(t, "oauth_user@example.com", pc_test.rw.HeaderMap["X-Auth-Request-Email"][0])
 }
 func TestAuthSkippedForPreflightRequests(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	upstream := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -669,6 +743,8 @@ type SignatureAuthenticator struct{ auth hmacauth.HmacAuth }
 func (v *SignatureAuthenticator) Authenticate(w http.ResponseWriter, r *http.Request) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, headerSig, computedSig := v.auth.AuthenticateRequest(r)
 	if result == hmacauth.ResultNoSignature {
 		w.Write([]byte("no signature received"))
@@ -694,6 +770,8 @@ type SignatureTest struct {
 func NewSignatureTest() *SignatureTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := NewOptions()
 	opts.CookieSecret = "cookie secret"
 	opts.ClientID = "client ID"
@@ -714,6 +792,8 @@ func NewSignatureTest() *SignatureTest {
 func (st *SignatureTest) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	st.provider.Close()
 	st.upstream.Close()
 }
@@ -721,6 +801,8 @@ func (st *SignatureTest) Close() {
 type fakeNetConn struct{ reqBody string }
 
 func (fnc *fakeNetConn) Read(p []byte) (n int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if bodyLen := len(fnc.reqBody); bodyLen != 0 {
@@ -731,6 +813,8 @@ func (fnc *fakeNetConn) Read(p []byte) (n int, err error) {
 	return 0, io.EOF
 }
 func (st *SignatureTest) MakeRequestWithExpectedKey(method, body, key string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	err := st.opts.Validate(&testProvider{})
@@ -759,6 +843,8 @@ func (st *SignatureTest) MakeRequestWithExpectedKey(method, body, key string) {
 func TestNoRequestSignature(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	st := NewSignatureTest()
 	defer st.Close()
 	st.MakeRequestWithExpectedKey("GET", "", "")
@@ -766,6 +852,8 @@ func TestNoRequestSignature(t *testing.T) {
 	assert.Equal(t, st.rw.Body.String(), "no signature received")
 }
 func TestRequestSignatureGetRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	st := NewSignatureTest()
@@ -776,6 +864,8 @@ func TestRequestSignatureGetRequest(t *testing.T) {
 	assert.Equal(t, st.rw.Body.String(), "signatures match")
 }
 func TestRequestSignaturePostRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	st := NewSignatureTest()

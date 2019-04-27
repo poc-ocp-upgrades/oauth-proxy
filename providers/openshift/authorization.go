@@ -18,9 +18,13 @@ type DelegatingAuthorizationOptions struct {
 func NewDelegatingAuthorizationOptions() *DelegatingAuthorizationOptions {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DelegatingAuthorizationOptions{AllowCacheTTL: 10 * time.Second, DenyCacheTTL: 10 * time.Second}
 }
 func (s *DelegatingAuthorizationOptions) Validate() []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	allErrors := []error{}
@@ -29,11 +33,15 @@ func (s *DelegatingAuthorizationOptions) Validate() []error {
 func (s *DelegatingAuthorizationOptions) AddFlags(fs *flag.FlagSet) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fs.StringVar(&s.RemoteKubeConfigFile, "authorization-kubeconfig", s.RemoteKubeConfigFile, ""+"kubeconfig file pointing at the 'core' kubernetes server with enough rights to create "+" subjectaccessreviews.authorization.k8s.io.")
 	fs.DurationVar(&s.AllowCacheTTL, "authorization-webhook-cache-authorized-ttl", s.AllowCacheTTL, "The duration to cache 'authorized' responses from the webhook authorizer.")
 	fs.DurationVar(&s.DenyCacheTTL, "authorization-webhook-cache-unauthorized-ttl", s.DenyCacheTTL, "The duration to cache 'unauthorized' responses from the webhook authorizer.")
 }
 func (s *DelegatingAuthorizationOptions) ToAuthorizationConfig() (authorizerfactory.DelegatingAuthorizerConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	sarClient, err := s.newSubjectAccessReview()
@@ -44,6 +52,8 @@ func (s *DelegatingAuthorizationOptions) ToAuthorizationConfig() (authorizerfact
 	return ret, nil
 }
 func (s *DelegatingAuthorizationOptions) newSubjectAccessReview() (authorizationclient.SubjectAccessReviewInterface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var clientConfig *rest.Config

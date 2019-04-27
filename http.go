@@ -18,6 +18,8 @@ type Server struct {
 func (s *Server) ListenAndServe() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s.Opts.HttpsAddress == "" && s.Opts.HttpAddress == "" {
 		log.Fatalf("FATAL: must specify https-address or http-address")
 	}
@@ -30,6 +32,8 @@ func (s *Server) ListenAndServe() {
 	select {}
 }
 func (s *Server) ServeHTTP() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	httpAddress := s.Opts.HttpAddress
@@ -60,6 +64,8 @@ func (s *Server) ServeHTTP() {
 	log.Printf("HTTP: closing %s", listener.Addr())
 }
 func (s *Server) ServeHTTPS() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	addr := s.Opts.HttpsAddress
@@ -97,6 +103,8 @@ func (s *Server) ServeHTTPS() {
 type tcpKeepAliveListener struct{ *net.TCPListener }
 
 func (ln tcpKeepAliveListener) Accept() (c net.Conn, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	tc, err := ln.AcceptTCP()

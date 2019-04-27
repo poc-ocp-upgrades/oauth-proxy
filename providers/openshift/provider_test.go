@@ -14,6 +14,8 @@ type mockAuthorizer struct{}
 func TestParseSubjectAccessReviews(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		sar		string
 		expectedResult	[]string
@@ -31,14 +33,20 @@ func TestParseSubjectAccessReviews(t *testing.T) {
 func (mock *mockAuthRequestHandler) AuthenticateRequest(req *http.Request) (user.Info, bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &user.DefaultInfo{Name: "username", UID: "uid"}, true, nil
 }
 func (mock *mockAuthorizer) Authorize(record authorizer.Attributes) (bool, string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true, "", nil
 }
 func TestPassOAuthToken(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "/someurl", nil)
@@ -59,6 +67,8 @@ func TestPassOAuthToken(t *testing.T) {
 	}
 }
 func TestDontPassBasicAuthentication(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "/someurl", nil)

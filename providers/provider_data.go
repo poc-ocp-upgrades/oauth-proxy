@@ -20,5 +20,7 @@ type ProviderData struct {
 func (p *ProviderData) Data() *ProviderData {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p
 }

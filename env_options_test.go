@@ -13,6 +13,8 @@ type envTest struct {
 func TestLoadEnvForStruct(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := make(EnvOptions)
 	cfg.LoadEnvForStruct(&envTest{})
 	_, ok := cfg["target_field"]

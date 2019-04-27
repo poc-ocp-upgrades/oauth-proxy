@@ -14,6 +14,8 @@ const altSecret = "0000000000abcdefghijklmnopqrstuv"
 func TestSessionStateSerialization(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := cookie.NewCipher([]byte(secret))
 	assert.Equal(t, nil, err)
 	c2, err := cookie.NewCipher([]byte(altSecret))
@@ -40,6 +42,8 @@ func TestSessionStateSerialization(t *testing.T) {
 func TestSessionStateSerializationNoCipher(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &SessionState{Email: "user@domain.com", AccessToken: "token1234", ExpiresOn: time.Now().Add(time.Duration(1) * time.Hour), RefreshToken: "refresh4321"}
 	encoded, err := s.EncodeSessionState(nil)
 	assert.Equal(t, nil, err)
@@ -53,12 +57,16 @@ func TestSessionStateSerializationNoCipher(t *testing.T) {
 func TestSessionStateUserOrEmail(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &SessionState{Email: "user@domain.com", User: "just-user"}
 	assert.Equal(t, "user@domain.com", s.userOrEmail())
 	s.Email = ""
 	assert.Equal(t, "just-user", s.userOrEmail())
 }
 func TestExpired(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	s := &SessionState{ExpiresOn: time.Now().Add(time.Duration(-1) * time.Minute)}

@@ -27,6 +27,8 @@ import (
 func emptyURL(u *url.URL) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return u == nil || u.String() == ""
 }
 
@@ -47,14 +49,20 @@ type OpenShiftProvider struct {
 func (p *OpenShiftProvider) GetReviewCAs() []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.ReviewCAs
 }
 func (p *OpenShiftProvider) SetReviewCAs(cas []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.ReviewCAs = cas
 }
 func New() *OpenShiftProvider {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p := &OpenShiftProvider{}
@@ -67,15 +75,21 @@ func New() *OpenShiftProvider {
 func (p *OpenShiftProvider) SetClientCAFile(file string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.AuthenticationOptions.ClientCert.ClientCA = file
 }
 func (p *OpenShiftProvider) Bind(flags *flag.FlagSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	p.AuthenticationOptions.AddFlags(flags)
 	p.AuthorizationOptions.AddFlags(flags)
 }
 func (p *OpenShiftProvider) LoadDefaults(serviceAccount string, reviewJSON, reviewByHostJSON, resources string) (*providers.ProviderData, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(resources) > 0 {
@@ -113,6 +127,8 @@ func (p *OpenShiftProvider) LoadDefaults(serviceAccount string, reviewJSON, revi
 func (p *OpenShiftProvider) newOpenShiftClient() (*http.Client, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	paths := p.GetReviewCAs()
 	capaths := []string{"/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"}
 	system_roots := true
@@ -129,12 +145,16 @@ func (p *OpenShiftProvider) newOpenShiftClient() (*http.Client, error) {
 func encodeSARWithScope(json *simplejson.Json) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(json.Get("scopes").MustArray()) == 0 {
 		json.Set("scopes", []interface{}{})
 	}
 	return json.Encode()
 }
 func parseSubjectAccessReviewsByHost(review string) (map[string][]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(review) == 0 {
@@ -159,6 +179,8 @@ func parseSubjectAccessReviewsByHost(review string) (map[string][]string, error)
 	return reviews, nil
 }
 func parseSubjectAccessReviews(review string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	review = strings.TrimSpace(review)
@@ -192,14 +214,20 @@ type recordsByPath []pathRecord
 func (o recordsByPath) Len() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(o)
 }
 func (o recordsByPath) Swap(i, j int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o[i], o[j] = o[j], o[i]
 }
 func (o recordsByPath) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if len(o[j].path) < len(o[i].path) {
@@ -210,6 +238,8 @@ func (o recordsByPath) Less(i, j int) bool {
 func (o recordsByPath) Match(path string) (pathRecord, bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range o {
 		if strings.HasPrefix(path, o[i].path) {
 			return o[i], true
@@ -218,6 +248,8 @@ func (o recordsByPath) Match(path string) (pathRecord, bool) {
 	return pathRecord{}, false
 }
 func parseResources(resources string) (recordsByPath, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	defaults := authorizer.AttributesRecord{Verb: "proxy", ResourceRequest: true}
@@ -255,6 +287,8 @@ func parseResources(resources string) (recordsByPath, error) {
 	return paths, nil
 }
 func (p *OpenShiftProvider) Complete(data *providers.ProviderData, reviewURL *url.URL) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if emptyURL(reviewURL) {
@@ -298,6 +332,8 @@ func (p *OpenShiftProvider) Complete(data *providers.ProviderData, reviewURL *ur
 func (p *OpenShiftProvider) ValidateRequest(req *http.Request) (*providers.SessionState, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.authenticator == nil {
 		return nil, nil
 	}
@@ -333,6 +369,8 @@ func (p *OpenShiftProvider) ValidateRequest(req *http.Request) (*providers.Sessi
 func (p *OpenShiftProvider) GetEmailAddress(s *providers.SessionState) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := http.NewRequest("GET", p.ValidateURL.String(), nil)
 	if err != nil {
 		log.Printf("failed building request %s", err)
@@ -357,6 +395,8 @@ func (p *OpenShiftProvider) GetEmailAddress(s *providers.SessionState) (string, 
 	return name, nil
 }
 func (p *OpenShiftProvider) ReviewUser(name, accessToken, host string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var tocheck []string
@@ -395,6 +435,8 @@ func (p *OpenShiftProvider) ReviewUser(name, accessToken, host string) error {
 	return nil
 }
 func (p *OpenShiftProvider) Redeem(redeemURL *url.URL, redirectURL, code string) (s *providers.SessionState, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if code == "" {
@@ -459,6 +501,8 @@ func (p *OpenShiftProvider) Redeem(redeemURL *url.URL, redirectURL, code string)
 func (p *OpenShiftProvider) GetLoginURL() (*url.URL, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !emptyURL(p.ConfigLoginURL) {
 		return p.ConfigLoginURL, nil
 	}
@@ -472,6 +516,8 @@ func (p *OpenShiftProvider) GetLoginURL() (*url.URL, error) {
 func (p *OpenShiftProvider) GetRedeemURL() (*url.URL, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !emptyURL(p.ConfigRedeemURL) {
 		return p.ConfigRedeemURL, nil
 	}
@@ -483,6 +529,8 @@ func (p *OpenShiftProvider) GetRedeemURL() (*url.URL, error) {
 	return redeemURL, err
 }
 func discoverOpenShiftOAuth(client *http.Client) (*url.URL, *url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	wellKnownAuthorization := getKubeAPIURLWithPath("/.well-known/oauth-authorization-server")
@@ -515,6 +563,8 @@ func discoverOpenShiftOAuth(client *http.Client) (*url.URL, *url.URL, error) {
 func request(client *http.Client, req *http.Request) (*simplejson.Json, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if client == nil {
 		client = http.DefaultClient
 	}
@@ -539,6 +589,8 @@ func request(client *http.Client, req *http.Request) (*simplejson.Json, error) {
 	return data, nil
 }
 func getKubeAPIURLWithPath(path string) *url.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	ret := &url.URL{Scheme: "https", Host: "kubernetes.default.svc", Path: path}

@@ -16,6 +16,8 @@ type testProvider struct{ providers.ProviderData }
 func testOptions() *Options {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewOptions()
 	o.Upstreams = []string{"http://127.0.0.1:8080"}
 	o.CookieSecret = "foobar"
@@ -30,12 +32,16 @@ func testOptions() *Options {
 func errorMsg(msgs []string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := make([]string, 0)
 	result = append(result, "Invalid configuration:")
 	result = append(result, msgs...)
 	return strings.Join(result, "\n  ")
 }
 func TestNewOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := NewOptions()
@@ -48,10 +54,14 @@ func TestNewOptions(t *testing.T) {
 func TestInitializedOptions(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	assert.Equal(t, nil, o.Validate(&testProvider{}))
 }
 func TestRedirectURL(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := testOptions()
@@ -63,6 +73,8 @@ func TestRedirectURL(t *testing.T) {
 func TestProxyURLs(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	t.Logf("%#v / %#v", o.Upstreams, o.proxyURLs)
 	o.Upstreams = append(o.Upstreams, "http://127.0.0.1:8081")
@@ -72,6 +84,8 @@ func TestProxyURLs(t *testing.T) {
 	assert.Equal(t, expected, o.proxyURLs)
 }
 func TestCompiledRegex(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := testOptions()
@@ -87,6 +101,8 @@ func TestCompiledRegex(t *testing.T) {
 func TestCompiledRegexError(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	o.SkipAuthRegex = []string{"(foobaz", "barquux)"}
 	err := o.Validate(&testProvider{})
@@ -97,12 +113,16 @@ func TestCompiledRegexError(t *testing.T) {
 func TestDefaultProviderApiSettings(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	assert.Equal(t, nil, o.Validate(&testProvider{}))
 	p := o.provider.Data()
 	assert.Equal(t, "", p.Scope)
 }
 func TestPassAccessTokenRequiresSpecificCookieSecretLengths(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := testOptions()
@@ -124,6 +144,8 @@ func TestPassAccessTokenRequiresSpecificCookieSecretLengths(t *testing.T) {
 func TestCookieRefreshMustBeLessThanCookieExpire(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	assert.Equal(t, nil, o.Validate(&testProvider{}))
 	o.CookieSecret = "0123456789abcdefabcd"
@@ -133,6 +155,8 @@ func TestCookieRefreshMustBeLessThanCookieExpire(t *testing.T) {
 	assert.Equal(t, nil, o.Validate(&testProvider{}))
 }
 func TestBase64CookieSecret(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := testOptions()
@@ -151,6 +175,8 @@ func TestBase64CookieSecret(t *testing.T) {
 func TestValidateSignatureKey(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	o.SignatureKey = "sha1:secret"
 	assert.Equal(t, nil, o.Validate(&testProvider{}))
@@ -158,6 +184,8 @@ func TestValidateSignatureKey(t *testing.T) {
 	assert.Equal(t, o.signatureData.key, "secret")
 }
 func TestValidateSignatureKeyInvalidSpec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := testOptions()
@@ -168,6 +196,8 @@ func TestValidateSignatureKeyInvalidSpec(t *testing.T) {
 func TestValidateSignatureKeyUnsupportedAlgorithm(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	o.SignatureKey = "unsupported:default secret"
 	err := o.Validate(&testProvider{})
@@ -176,11 +206,15 @@ func TestValidateSignatureKeyUnsupportedAlgorithm(t *testing.T) {
 func TestValidateCookie(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := testOptions()
 	o.CookieName = "_valid_cookie_name"
 	assert.Equal(t, nil, o.Validate(&testProvider{}))
 }
 func TestValidateCookieBadName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := testOptions()

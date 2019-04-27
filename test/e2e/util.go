@@ -39,6 +39,8 @@ const (
 func restClientConfig(config, context string) (*api.Config, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config == "" {
 		return nil, fmt.Errorf("Config file must be specified to load client config")
 	}
@@ -54,6 +56,8 @@ func restClientConfig(config, context string) (*api.Config, error) {
 func loadConfig(config, context string) (*rest.Config, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := restClientConfig(config, context)
 	if err != nil {
 		return nil, err
@@ -61,6 +65,8 @@ func loadConfig(config, context string) (*rest.Config, error) {
 	return clientcmd.NewDefaultClientConfig(*c, &clientcmd.ConfigOverrides{}).ClientConfig()
 }
 func waitForPodRunningInNamespace(c kubernetes.Interface, pod *corev1.Pod) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if pod.Status.Phase == corev1.PodRunning {
@@ -71,14 +77,20 @@ func waitForPodRunningInNamespace(c kubernetes.Interface, pod *corev1.Pod) error
 func waitTimeoutForPodRunningInNamespace(c kubernetes.Interface, podName, namespace string, timeout time.Duration) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wait.PollImmediate(Poll, defaultTimeout, podRunning(c, podName, namespace))
 }
 func waitForPodDeletion(c kubernetes.Interface, podName, namespace string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wait.PollImmediate(Poll, defaultTimeout, podDeleted(c, podName, namespace))
 }
 func waitForHealthzCheck(cas [][]byte, url string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	client, err := newHTTPSClient(cas)
@@ -100,6 +112,8 @@ func waitForHealthzCheck(cas [][]byte, url string) error {
 func podDeleted(c kubernetes.Interface, podName, namespace string) wait.ConditionFunc {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func() (bool, error) {
 		_, err := c.CoreV1().Pods(namespace).Get(podName, metav1.GetOptions{})
 		if err != nil {
@@ -112,6 +126,8 @@ func podDeleted(c kubernetes.Interface, podName, namespace string) wait.Conditio
 	}
 }
 func podRunning(c kubernetes.Interface, podName, namespace string) wait.ConditionFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return func() (bool, error) {
@@ -129,6 +145,8 @@ func podRunning(c kubernetes.Interface, podName, namespace string) wait.Conditio
 	}
 }
 func waitUntilRouteIsReady(cas [][]byte, url string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	client, err := newHTTPSClient(cas)
@@ -150,6 +168,8 @@ func waitUntilRouteIsReady(cas [][]byte, url string) error {
 func getResponse(host string, client *http.Client) (*http.Response, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := http.NewRequest("GET", host, nil)
 	if err != nil {
 		return nil, err
@@ -162,6 +182,8 @@ func getResponse(host string, client *http.Client) (*http.Response, error) {
 	return resp, nil
 }
 func createParsedCertificate(template, parent *x509.Certificate, sigKey *rsa.PrivateKey) (*x509.Certificate, *rsa.PrivateKey, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	key, err := rsa.GenerateKey(rand.Reader, 2048)
@@ -184,6 +206,8 @@ func createParsedCertificate(template, parent *x509.Certificate, sigKey *rsa.Pri
 func encodeCert(certificate *x509.Certificate) ([]byte, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var certBytes bytes.Buffer
 	wb := bufio.NewWriter(&certBytes)
 	err := pem.Encode(wb, &pem.Block{Type: "CERTIFICATE", Bytes: certificate.Raw})
@@ -194,6 +218,8 @@ func encodeCert(certificate *x509.Certificate) ([]byte, error) {
 	return certBytes.Bytes(), nil
 }
 func encodeKey(key *rsa.PrivateKey) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var keyBytes bytes.Buffer
@@ -208,6 +234,8 @@ func encodeKey(key *rsa.PrivateKey) ([]byte, error) {
 func newHTTPSClient(cas [][]byte) (*http.Client, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool := x509.NewCertPool()
 	for i := range cas {
 		if !pool.AppendCertsFromPEM(cas[i]) {
@@ -220,6 +248,8 @@ func newHTTPSClient(cas [][]byte) (*http.Client, error) {
 	return client, nil
 }
 func createCAandCertSet(host string) ([]byte, []byte, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	notBefore := time.Now()
@@ -253,12 +283,16 @@ func createCAandCertSet(host string) ([]byte, []byte, []byte, error) {
 func visit(n *html.Node, visitor func(*html.Node)) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	visitor(n)
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		visit(c, visitor)
 	}
 }
 func getTextNodes(root *html.Node) []*html.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	elements := []*html.Node{}
@@ -272,6 +306,8 @@ func getTextNodes(root *html.Node) []*html.Node {
 func getElementsByTagName(root *html.Node, tagName string) []*html.Node {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	elements := []*html.Node{}
 	visit(root, func(n *html.Node) {
 		if n.Type == html.ElementNode && n.Data == tagName {
@@ -281,6 +317,8 @@ func getElementsByTagName(root *html.Node, tagName string) []*html.Node {
 	return elements
 }
 func getAttr(element *html.Node, attrName string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	for _, attr := range element.Attr {
@@ -293,6 +331,8 @@ func getAttr(element *html.Node, attrName string) (string, bool) {
 func randLogin() string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	b := make([]rune, 5)
 	for i := range b {
@@ -301,6 +341,8 @@ func randLogin() string {
 	return "developer" + string(b)
 }
 func newRequestFromForm(form *html.Node, currentURL *url.URL, user string) (*http.Request, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var (
@@ -372,6 +414,8 @@ func newRequestFromForm(form *html.Node, currentURL *url.URL, user string) (*htt
 func execCmd(cmd string, args []string, input string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := exec.Command(cmd, args...)
 	stdin, err := c.StdinPipe()
 	if err != nil {
@@ -394,6 +438,8 @@ func execCmd(cmd string, args []string, input string) (string, error) {
 func deleteTestRoute(routeName, namespace string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := execCmd("oc", []string{"delete", fmt.Sprintf("route/%s", routeName), "-n", namespace}, "")
 	if err != nil {
 		return err
@@ -403,6 +449,8 @@ func deleteTestRoute(routeName, namespace string) error {
 func getRouteHost(routeName, namespace string) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := execCmd("oc", []string{"get", fmt.Sprintf("route/%s", routeName), "-o", "jsonpath='{.spec.host}'", "-n", namespace}, "")
 	if err != nil {
 		return "", err
@@ -410,6 +458,8 @@ func getRouteHost(routeName, namespace string) (string, error) {
 	return out[1 : len(out)-1], nil
 }
 func newOAuthProxyService() *corev1.Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &corev1.Service{ObjectMeta: metav1.ObjectMeta{Name: "proxy", Labels: map[string]string{"app": "proxy"}}, Spec: corev1.ServiceSpec{Selector: map[string]string{"app": "proxy"}, Ports: []corev1.ServicePort{{Protocol: corev1.ProtocolTCP, Port: int32(443), TargetPort: intstr.FromInt(8443)}}}}
@@ -436,10 +486,14 @@ spec:
 func newOAuthProxyRoute(namespace string) error {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := execCmd("oc", []string{"create", "-n", namespace, "-f", "-"}, routeYaml)
 	return err
 }
 func newOAuthProxySA() *corev1.ServiceAccount {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return &corev1.ServiceAccount{ObjectMeta: metav1.ObjectMeta{Name: "proxy", Annotations: map[string]string{"serviceaccounts.openshift.io/oauth-redirectreference.primary": `{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"proxy-route"}}`}}}
@@ -447,9 +501,13 @@ func newOAuthProxySA() *corev1.ServiceAccount {
 func newOAuthProxyConfigMap(namespace string, pemCA, pemServerCert, pemServerKey, upstreamCA, upstreamCert, upstreamKey []byte) *corev1.ConfigMap {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &corev1.ConfigMap{TypeMeta: metav1.TypeMeta{Kind: "ConfigMap", APIVersion: "v1"}, ObjectMeta: metav1.ObjectMeta{Name: "proxy-certs", Namespace: namespace}, Data: map[string]string{"ca.crt": "|\n" + string(pemCA), "tls.crt": "|\n" + string(pemServerCert), "tls.key": "|\n" + string(pemServerKey), "upstreamca.crt": "|\n" + string(upstreamCA), "upstream.crt": "|\n" + string(upstreamCert), "upstream.key": "|\n" + string(upstreamKey)}}
 }
 func newOAuthProxyPod(proxyImage, backendImage string, proxyArgs, backendEnvs []string) *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	backendEnvVars := []corev1.EnvVar{}

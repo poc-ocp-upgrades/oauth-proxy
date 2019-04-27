@@ -14,9 +14,13 @@ type ValidateSessionStateTestProvider struct{ *ProviderData }
 func (tp *ValidateSessionStateTestProvider) GetEmailAddress(s *SessionState) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", errors.New("not implemented")
 }
 func (tp *ValidateSessionStateTestProvider) ValidateSessionState(s *SessionState) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return false
@@ -30,6 +34,8 @@ type ValidateSessionStateTest struct {
 }
 
 func NewValidateSessionStateTest() *ValidateSessionStateTest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var vt_test ValidateSessionStateTest
@@ -65,9 +71,13 @@ func NewValidateSessionStateTest() *ValidateSessionStateTest {
 func (vt_test *ValidateSessionStateTest) Close() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt_test.backend.Close()
 }
 func TestValidateSessionStateValidToken(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt_test := NewValidateSessionStateTest()
@@ -75,6 +85,8 @@ func TestValidateSessionStateValidToken(t *testing.T) {
 	assert.Equal(t, true, validateToken(vt_test.provider, "foobar", nil))
 }
 func TestValidateSessionStateValidTokenWithHeaders(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt_test := NewValidateSessionStateTest()
@@ -86,11 +98,15 @@ func TestValidateSessionStateValidTokenWithHeaders(t *testing.T) {
 func TestValidateSessionStateEmptyToken(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt_test := NewValidateSessionStateTest()
 	defer vt_test.Close()
 	assert.Equal(t, false, validateToken(vt_test.provider, "", nil))
 }
 func TestValidateSessionStateEmptyValidateURL(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt_test := NewValidateSessionStateTest()
@@ -101,11 +117,15 @@ func TestValidateSessionStateEmptyValidateURL(t *testing.T) {
 func TestValidateSessionStateRequestNetworkFailure(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt_test := NewValidateSessionStateTest()
 	vt_test.Close()
 	assert.Equal(t, false, validateToken(vt_test.provider, "foobar", nil))
 }
 func TestValidateSessionStateExpiredToken(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt_test := NewValidateSessionStateTest()
@@ -116,10 +136,14 @@ func TestValidateSessionStateExpiredToken(t *testing.T) {
 func TestStripTokenNotPresent(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := "http://local.test/api/test?a=1&b=2"
 	assert.Equal(t, test, stripToken(test))
 }
 func TestStripToken(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	test := "http://local.test/api/test?access_token=deadbeef&b=1&c=2"

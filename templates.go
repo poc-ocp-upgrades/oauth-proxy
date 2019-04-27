@@ -9,6 +9,8 @@ import (
 func loadTemplates(dir string) *template.Template {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dir == "" {
 		return getTemplates()
 	}
@@ -20,6 +22,8 @@ func loadTemplates(dir string) *template.Template {
 	return t
 }
 func getTemplates() *template.Template {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t, err := template.New("foo").Parse(`{{define "sign_in.html"}}

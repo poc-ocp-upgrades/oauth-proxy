@@ -14,6 +14,8 @@ import (
 func (p *ProviderData) Redeem(redeemURL *url.URL, redirectURL, code string) (s *SessionState, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if code == "" {
 		err = errors.New("missing code")
 		return
@@ -71,6 +73,8 @@ func (p *ProviderData) Redeem(redeemURL *url.URL, redirectURL, code string) (s *
 func (p *ProviderData) GetLoginRedirectURL(loginURL url.URL, redirectURI, state string) string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	params, _ := url.ParseQuery(loginURL.RawQuery)
 	params.Set("redirect_uri", redirectURI)
 	params.Set("approval_prompt", p.ApprovalPrompt)
@@ -84,9 +88,13 @@ func (p *ProviderData) GetLoginRedirectURL(loginURL url.URL, redirectURI, state 
 func (p *ProviderData) CookieForSession(s *SessionState, c *cookie.Cipher) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.EncodeSessionState(c)
 }
 func (p *ProviderData) SessionFromCookie(v string, c *cookie.Cipher) (s *SessionState, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return DecodeSessionState(v, c)
@@ -94,9 +102,13 @@ func (p *ProviderData) SessionFromCookie(v string, c *cookie.Cipher) (s *Session
 func (p *ProviderData) GetEmailAddress(s *SessionState) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", errors.New("not implemented")
 }
 func (p *ProviderData) ReviewUser(name, accessToken, host string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil
@@ -104,9 +116,13 @@ func (p *ProviderData) ReviewUser(name, accessToken, host string) error {
 func (p *ProviderData) ValidateGroup(email string) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (p *ProviderData) ValidateRequest(_ *http.Request) (*SessionState, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return nil, nil
@@ -114,14 +130,20 @@ func (p *ProviderData) ValidateRequest(_ *http.Request) (*SessionState, error) {
 func (p *ProviderData) ValidateSessionState(s *SessionState) bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateToken(p, s.AccessToken, nil)
 }
 func (p *ProviderData) RefreshSessionIfNeeded(s *SessionState) (bool, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false, nil
 }
 func (p *ProviderData) GetLoginURL() (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !(p.ConfigLoginURL == nil || p.ConfigLoginURL.String() == "") {
@@ -130,6 +152,8 @@ func (p *ProviderData) GetLoginURL() (*url.URL, error) {
 	return nil, fmt.Errorf("no login endpoint was configured")
 }
 func (p *ProviderData) GetRedeemURL() (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if !(p.ConfigRedeemURL == nil || p.ConfigRedeemURL.String() == "") {

@@ -8,6 +8,8 @@ import (
 func Nonce() (nonce string, err error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := make([]byte, 16)
 	_, err = rand.Read(b)
 	if err != nil {

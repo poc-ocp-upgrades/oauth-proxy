@@ -9,6 +9,8 @@ import (
 func (vt *ValidatorTest) UpdateEmailFile(t *testing.T, emails []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	vt.auth_email_file, err = os.OpenFile(vt.auth_email_file.Name(), os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
@@ -17,6 +19,8 @@ func (vt *ValidatorTest) UpdateEmailFile(t *testing.T, emails []string) {
 	vt.WriteEmails(t, emails)
 }
 func (vt *ValidatorTest) UpdateEmailFileViaRenameAndReplace(t *testing.T, emails []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	orig_file := vt.auth_email_file
@@ -36,6 +40,8 @@ func (vt *ValidatorTest) UpdateEmailFileViaRenameAndReplace(t *testing.T, emails
 	os.Remove(moved_name)
 }
 func TestValidatorOverwriteEmailListDirectly(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
@@ -66,6 +72,8 @@ func TestValidatorOverwriteEmailListDirectly(t *testing.T) {
 	}
 }
 func TestValidatorOverwriteEmailListViaRenameAndReplace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)

@@ -19,12 +19,16 @@ type SessionState struct {
 func (s *SessionState) IsExpired() bool {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !s.ExpiresOn.IsZero() && s.ExpiresOn.Before(time.Now()) {
 		return true
 	}
 	return false
 }
 func (s *SessionState) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	o := fmt.Sprintf("Session{%s", s.userOrEmail())
@@ -42,12 +46,16 @@ func (s *SessionState) String() string {
 func (s *SessionState) EncodeSessionState(c *cookie.Cipher) (string, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c == nil || s.AccessToken == "" {
 		return s.userOrEmail(), nil
 	}
 	return s.EncryptedString(c)
 }
 func (s *SessionState) userOrEmail() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	u := s.User
@@ -57,6 +65,8 @@ func (s *SessionState) userOrEmail() string {
 	return u
 }
 func (s *SessionState) EncryptedString(c *cookie.Cipher) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	var err error
@@ -80,6 +90,8 @@ func (s *SessionState) EncryptedString(c *cookie.Cipher) (string, error) {
 	return fmt.Sprintf("%s|%s|%d|%s", s.userOrEmail(), a, s.ExpiresOn.Unix(), r), nil
 }
 func DecodeSessionState(v string, c *cookie.Cipher) (s *SessionState, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	chunks := strings.Split(v, "|")

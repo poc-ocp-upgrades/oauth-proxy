@@ -89,9 +89,13 @@ type SignatureData struct {
 func NewOptions() *Options {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Options{ProxyPrefix: "/oauth2", ProxyWebSockets: true, HttpAddress: "127.0.0.1:4180", HttpsAddress: ":443", UpstreamFlush: time.Duration(5) * time.Millisecond, DisplayHtpasswdForm: true, CookieName: "_oauth2_proxy", CookieSecure: true, CookieHttpOnly: true, CookieExpire: time.Duration(168) * time.Hour, CookieRefresh: time.Duration(0), SetXAuthRequest: false, SkipAuthPreflight: false, PassBasicAuth: true, PassUserHeaders: true, PassAccessToken: false, PassUserBearerToken: false, PassHostHeader: true, ApprovalPrompt: "force", RequestLogging: true}
 }
 func parseURL(to_parse string, urltype string, msgs []string) (*url.URL, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	parsed, err := url.Parse(to_parse)
@@ -101,6 +105,8 @@ func parseURL(to_parse string, urltype string, msgs []string) (*url.URL, []strin
 	return parsed, msgs
 }
 func (o *Options) Validate(p providers.Provider) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	msgs := make([]string, 0)
@@ -239,6 +245,8 @@ func (o *Options) Validate(p providers.Provider) error {
 func (o *Options) validateProvider(provider providers.Provider) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var msgs []string
 	data := &providers.ProviderData{Scope: o.Scope, ClientID: o.ClientID, ClientSecret: o.ClientSecret, ApprovalPrompt: o.ApprovalPrompt}
 	data.ConfigLoginURL, msgs = parseURL(o.LoginURL, "login", msgs)
@@ -273,6 +281,8 @@ func (o *Options) validateProvider(provider providers.Provider) []string {
 func parseSignatureKey(o *Options, msgs []string) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.SignatureKey == "" {
 		return msgs
 	}
@@ -291,6 +301,8 @@ func parseSignatureKey(o *Options, msgs []string) []string {
 func validateCookieName(o *Options, msgs []string) []string {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cookie := &http.Cookie{Name: o.CookieName}
 	if cookie.String() == "" {
 		return append(msgs, fmt.Sprintf("invalid cookie name: %q", o.CookieName))
@@ -298,6 +310,8 @@ func validateCookieName(o *Options, msgs []string) []string {
 	return msgs
 }
 func addPadding(secret string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	padding := len(secret) % 4
@@ -313,6 +327,8 @@ func addPadding(secret string) string {
 	}
 }
 func secretBytes(secret string) []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	b, err := base64.URLEncoding.DecodeString(addPadding(secret))

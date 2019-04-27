@@ -16,6 +16,8 @@ type ValidatorTest struct {
 func NewValidatorTest(t *testing.T) *ValidatorTest {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt := &ValidatorTest{}
 	var err error
 	vt.auth_email_file, err = ioutil.TempFile("", "test_auth_emails_")
@@ -28,10 +30,14 @@ func NewValidatorTest(t *testing.T) *ValidatorTest {
 func (vt *ValidatorTest) TearDown() {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt.done <- true
 	os.Remove(vt.auth_email_file.Name())
 }
 func (vt *ValidatorTest) NewValidator(domains []string, updated chan<- bool) func(string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return newValidatorImpl(domains, vt.auth_email_file.Name(), vt.done, func() {
@@ -44,6 +50,8 @@ func (vt *ValidatorTest) NewValidator(domains []string, updated chan<- bool) fun
 func (vt *ValidatorTest) WriteEmails(t *testing.T, emails []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer vt.auth_email_file.Close()
 	vt.auth_email_file.WriteString(strings.Join(emails, "\n"))
 	if err := vt.auth_email_file.Close(); err != nil {
@@ -51,6 +59,8 @@ func (vt *ValidatorTest) WriteEmails(t *testing.T, emails []string) {
 	}
 }
 func TestValidatorEmpty(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
@@ -63,6 +73,8 @@ func TestValidatorEmpty(t *testing.T) {
 	}
 }
 func TestValidatorSingleEmail(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
@@ -78,6 +90,8 @@ func TestValidatorSingleEmail(t *testing.T) {
 	}
 }
 func TestValidatorSingleDomain(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
@@ -96,6 +110,8 @@ func TestValidatorSingleDomain(t *testing.T) {
 	}
 }
 func TestValidatorMultipleEmailsMultipleDomains(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
@@ -122,6 +138,8 @@ func TestValidatorMultipleEmailsMultipleDomains(t *testing.T) {
 func TestValidatorComparisonsAreCaseInsensitive(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
 	defer vt.TearDown()
 	vt.WriteEmails(t, []string{"Foo.Bar@Example.Com"})
@@ -143,6 +161,8 @@ func TestValidatorComparisonsAreCaseInsensitive(t *testing.T) {
 func TestValidatorIgnoreSpacesInAuthEmails(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)
 	defer vt.TearDown()
 	vt.WriteEmails(t, []string{"   foo.bar@example.com   "})
@@ -153,6 +173,8 @@ func TestValidatorIgnoreSpacesInAuthEmails(t *testing.T) {
 	}
 }
 func TestValidatorWildcardDomain(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)

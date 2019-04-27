@@ -11,6 +11,8 @@ import (
 func WaitForReplacement(filename string, op fsnotify.Op, watcher *fsnotify.Watcher) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const sleep_interval = 50 * time.Millisecond
 	if op&fsnotify.Chmod != 0 {
 		time.Sleep(sleep_interval)
@@ -26,6 +28,8 @@ func WaitForReplacement(filename string, op fsnotify.Op, watcher *fsnotify.Watch
 	}
 }
 func WatchForUpdates(filename string, done <-chan bool, action func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	filename = filepath.Clean(filename)

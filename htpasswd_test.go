@@ -9,6 +9,8 @@ import (
 func TestHtpasswd(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file := bytes.NewBuffer([]byte("testuser:{SHA}PaVBVZkYqAjCQCu6UBL2xgsnZhw=\nfoo:{SHA}rjXz/gOeuoMRiEa7Get6eHtKkX0=\n"))
 	h, err := NewHtpasswd(file)
 	assert.Equal(t, err, nil)

@@ -20,9 +20,13 @@ type responseLogger struct {
 func (l *responseLogger) Header() http.Header {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.w.Header()
 }
 func (l *responseLogger) ExtractGAPMetadata() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	upstream := l.w.Header().Get("GAP-Upstream-Address")
@@ -39,6 +43,8 @@ func (l *responseLogger) ExtractGAPMetadata() {
 func (l *responseLogger) Write(b []byte) (int, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.status == 0 {
 		l.status = http.StatusOK
 	}
@@ -50,6 +56,8 @@ func (l *responseLogger) Write(b []byte) (int, error) {
 func (l *responseLogger) WriteHeader(s int) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.ExtractGAPMetadata()
 	l.w.WriteHeader(s)
 	l.status = s
@@ -57,9 +65,13 @@ func (l *responseLogger) WriteHeader(s int) {
 func (l *responseLogger) Status() int {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.status
 }
 func (l *responseLogger) Size() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return l.size
@@ -74,9 +86,13 @@ type loggingHandler struct {
 func LoggingHandler(out io.Writer, h http.Handler, v bool) http.Handler {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return loggingHandler{out, h, v}
 }
 func (h loggingHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	t := time.Now()
@@ -90,6 +106,8 @@ func (h loggingHandler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	h.writer.Write(logLine)
 }
 func buildLogLine(username, upstream string, req *http.Request, url url.URL, ts time.Time, status int, size int) []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	if username == "" {

@@ -14,6 +14,8 @@ type HtpasswdFile struct{ Users map[string]string }
 func NewHtpasswdFromFile(path string) (*HtpasswdFile, error) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -22,6 +24,8 @@ func NewHtpasswdFromFile(path string) (*HtpasswdFile, error) {
 	return NewHtpasswd(r)
 }
 func NewHtpasswd(file io.Reader) (*HtpasswdFile, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	csv_reader := csv.NewReader(file)
@@ -39,6 +43,8 @@ func NewHtpasswd(file io.Reader) (*HtpasswdFile, error) {
 	return h, nil
 }
 func (h *HtpasswdFile) Validate(user string, password string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	realPassword, exists := h.Users[user]

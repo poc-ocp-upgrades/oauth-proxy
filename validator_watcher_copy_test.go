@@ -9,6 +9,8 @@ import (
 func (vt *ValidatorTest) UpdateEmailFileViaCopyingOver(t *testing.T, emails []string) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	orig_file := vt.auth_email_file
 	var err error
 	vt.auth_email_file, err = ioutil.TempFile("", "test_auth_emails_")
@@ -23,6 +25,8 @@ func (vt *ValidatorTest) UpdateEmailFileViaCopyingOver(t *testing.T, emails []st
 	vt.auth_email_file = orig_file
 }
 func TestValidatorOverwriteEmailListViaCopyingOver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	vt := NewValidatorTest(t)

@@ -13,12 +13,16 @@ import (
 func testBackend(response_code int, payload string) *httptest.Server {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(response_code)
 		w.Write([]byte(payload))
 	}))
 }
 func TestRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	backend := testBackend(200, "{\"foo\": \"bar\"}")
@@ -31,6 +35,8 @@ func TestRequest(t *testing.T) {
 	assert.Equal(t, "bar", result)
 }
 func TestRequestFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	backend := testBackend(200, "{\"foo\": \"bar\"}")
@@ -47,6 +53,8 @@ func TestRequestFailure(t *testing.T) {
 func TestHttpErrorCode(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	backend := testBackend(404, "{\"foo\": \"bar\"}")
 	defer backend.Close()
 	req, err := http.NewRequest("GET", backend.URL, nil)
@@ -58,6 +66,8 @@ func TestHttpErrorCode(t *testing.T) {
 func TestJsonParsingError(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	backend := testBackend(200, "not well-formed JSON")
 	defer backend.Close()
 	req, err := http.NewRequest("GET", backend.URL, nil)
@@ -67,6 +77,8 @@ func TestJsonParsingError(t *testing.T) {
 	assert.NotEqual(t, nil, err)
 }
 func TestRequestUnparsedResponseUsingAccessTokenParameter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -90,6 +102,8 @@ func TestRequestUnparsedResponseUsingAccessTokenParameter(t *testing.T) {
 func TestRequestUnparsedResponseUsingAccessTokenParameterFailedResponse(t *testing.T) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	backend := testBackend(200, "some payload")
 	backend.Close()
 	response, err := RequestUnparsedResponse(backend.URL+"?access_token=my_token", nil)
@@ -97,6 +111,8 @@ func TestRequestUnparsedResponseUsingAccessTokenParameterFailedResponse(t *testi
 	assert.Equal(t, (*http.Response)(nil), response)
 }
 func TestRequestUnparsedResponseUsingHeaders(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

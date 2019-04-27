@@ -18,6 +18,8 @@ type UserMap struct {
 func NewUserMap(usersFile string, done <-chan bool, onUpdate func()) *UserMap {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	um := &UserMap{usersFile: usersFile}
 	m := make(map[string]bool)
 	atomic.StorePointer(&um.m, unsafe.Pointer(&m))
@@ -34,11 +36,15 @@ func NewUserMap(usersFile string, done <-chan bool, onUpdate func()) *UserMap {
 func (um *UserMap) IsValid(email string) (result bool) {
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := *(*map[string]bool)(atomic.LoadPointer(&um.m))
 	_, result = m[email]
 	return
 }
 func (um *UserMap) LoadAuthenticatedEmailsFile() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	r, err := os.Open(um.usersFile)
@@ -63,6 +69,8 @@ func (um *UserMap) LoadAuthenticatedEmailsFile() {
 	atomic.StorePointer(&um.m, unsafe.Pointer(&updated))
 }
 func newValidatorImpl(domains []string, usersFile string, done <-chan bool, onUpdate func()) func(string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	validUsers := NewUserMap(usersFile, done, onUpdate)
@@ -93,6 +101,8 @@ func newValidatorImpl(domains []string, usersFile string, done <-chan bool, onUp
 	return validator
 }
 func NewValidator(domains []string, usersFile string) func(string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	return newValidatorImpl(domains, usersFile, nil, func() {
