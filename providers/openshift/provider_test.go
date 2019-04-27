@@ -8,33 +8,16 @@ import (
 	"testing"
 )
 
-type mockAuthRequestHandler struct {
-}
-
-type mockAuthorizer struct {
-}
+type mockAuthRequestHandler struct{}
+type mockAuthorizer struct{}
 
 func TestParseSubjectAccessReviews(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		sar            string
-		expectedResult []string
-	}{
-		{
-			sar: `{"foo":"bar"}`,
-			expectedResult: []string{
-				`{"foo":"bar","scopes":[]}`,
-			},
-		},
-		{
-			sar: `[{"foo":"bar"}, {"baz":"bad"}]`,
-			expectedResult: []string{
-				`{"foo":"bar","scopes":[]}`,
-				`{"baz":"bad","scopes":[]}`,
-			},
-		},
-	}
-
+		sar		string
+		expectedResult	[]string
+	}{{sar: `{"foo":"bar"}`, expectedResult: []string{`{"foo":"bar","scopes":[]}`}}, {sar: `[{"foo":"bar"}, {"baz":"bad"}]`, expectedResult: []string{`{"foo":"bar","scopes":[]}`, `{"baz":"bad","scopes":[]}`}}}
 	for _, test := range tests {
 		result, err := parseSubjectAccessReviews(test.sar)
 		if err != nil {
@@ -45,23 +28,25 @@ func TestParseSubjectAccessReviews(t *testing.T) {
 		}
 	}
 }
-
 func (mock *mockAuthRequestHandler) AuthenticateRequest(req *http.Request) (user.Info, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &user.DefaultInfo{Name: "username", UID: "uid"}, true, nil
 }
-
 func (mock *mockAuthorizer) Authorize(record authorizer.Attributes) (bool, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true, "", nil
 }
-
 func TestPassOAuthToken(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "/someurl", nil)
 	req.Header.Set("Authorization", "Bearer this-is-the-token")
 	p := &OpenShiftProvider{}
 	p.paths = recordsByPath{pathRecord{"/someurl", authorizer.AttributesRecord{}}}
 	p.authenticator = &mockAuthRequestHandler{}
 	p.authorizer = &mockAuthorizer{}
-
 	session, err := p.ValidateRequest(req)
 	if err != nil {
 		t.Fatalf("failed to validate request %s", err.Error())
@@ -73,15 +58,15 @@ func TestPassOAuthToken(t *testing.T) {
 		t.Errorf("access token not set in session to expected value: %v", session)
 	}
 }
-
 func TestDontPassBasicAuthentication(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "/someurl", nil)
 	req.Header.Set("Authorization", "Basic dXNlcm5hbWU6cGFzc3dvcmQK")
 	p := &OpenShiftProvider{}
 	p.paths = recordsByPath{pathRecord{"/someurl", authorizer.AttributesRecord{}}}
 	p.authenticator = &mockAuthRequestHandler{}
 	p.authorizer = &mockAuthorizer{}
-
 	session, err := p.ValidateRequest(req)
 	if err != nil {
 		t.Fatalf("failed to validate request %s", err.Error())

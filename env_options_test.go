@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"testing"
-
 	"github.com/bmizerany/assert"
 )
 
@@ -12,13 +11,12 @@ type envTest struct {
 }
 
 func TestLoadEnvForStruct(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := make(EnvOptions)
 	cfg.LoadEnvForStruct(&envTest{})
-
 	_, ok := cfg["target_field"]
 	assert.Equal(t, ok, false)
-
 	os.Setenv("TEST_ENV_FIELD", "1234abcd")
 	cfg.LoadEnvForStruct(&envTest{})
 	v := cfg["target_field"]

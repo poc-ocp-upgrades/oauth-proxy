@@ -6,6 +6,8 @@ import (
 )
 
 func TestStringArray(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sa := StringArray{}
 	assert.Equal(t, "", sa.String())
 	err := sa.Set("foo")

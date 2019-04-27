@@ -6,13 +6,12 @@ import (
 	"io/ioutil"
 	"reflect"
 	"encoding/hex"
-
 	"github.com/bmizerany/assert"
 )
 
 var (
-	testCA1Subj = "301e311c301a060355040313136f617574682d70726f78792074657374206361"
-	testCA1 = `-----BEGIN CERTIFICATE-----
+	testCA1Subj	= "301e311c301a060355040313136f617574682d70726f78792074657374206361"
+	testCA1		= `-----BEGIN CERTIFICATE-----
 MIICuTCCAaGgAwIBAgIFAKuKEWowDQYJKoZIhvcNAQELBQAwHjEcMBoGA1UEAxMT
 b2F1dGgtcHJveHkgdGVzdCBjYTAeFw0xNzEwMjQyMDExMzJaFw0xOTEwMjQyMDEx
 MzJaMB4xHDAaBgNVBAMTE29hdXRoLXByb3h5IHRlc3QgY2EwggEiMA0GCSqGSIb3
@@ -30,8 +29,8 @@ pP5YlVqdRCVrxgT80PIMsvQhfcuIrbbeiRDEUdEX7FqebuGCEa2757MTdW7UYQiB
 7kgECMnwAOlJME8aDKnmTBajaMy6xCSC87V7wps=
 -----END CERTIFICATE-----
 `
-	testCA2Subj = "3025312330210603550403131a6f617574682d70726f7879207365636f6e642074657374206361"
-	testCA2 = `-----BEGIN CERTIFICATE-----
+	testCA2Subj	= "3025312330210603550403131a6f617574682d70726f7879207365636f6e642074657374206361"
+	testCA2		= `-----BEGIN CERTIFICATE-----
 MIICxzCCAa+gAwIBAgIFAKuMKewwDQYJKoZIhvcNAQELBQAwJTEjMCEGA1UEAxMa
 b2F1dGgtcHJveHkgc2Vjb25kIHRlc3QgY2EwHhcNMTcxMDI1MTYxMTQxWhcNMTkx
 MDI1MTYxMTQxWjAlMSMwIQYDVQQDExpvYXV0aC1wcm94eSBzZWNvbmQgdGVzdCBj
@@ -52,6 +51,8 @@ Xbl3Ix0t2+sqi0hpEF/iVFdCp5TXiicSnZCtePzCfHePAEfbh5hS0bq8Lbb9DZ6d
 )
 
 func makeTestCertFile(t *testing.T, pem, dir string) *os.File {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := ioutil.TempFile(dir, "test-certfile")
 	if err != nil {
 		t.Errorf("unexpected error %v", err)
@@ -62,30 +63,27 @@ func makeTestCertFile(t *testing.T, pem, dir string) *os.File {
 	}
 	return file
 }
-
 func TestGetCertPool(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := GetCertPool([]string(nil))
 	if err == nil {
 		t.Errorf("expected an error")
 	}
-	assert.Equal(t, "Invalid empty list of Root CAs file paths" ,err.Error())
-
+	assert.Equal(t, "Invalid empty list of Root CAs file paths", err.Error())
 	tempDir := os.TempDir()
 	defer os.RemoveAll(tempDir)
 	certFile1 := makeTestCertFile(t, testCA1, tempDir)
 	certFile2 := makeTestCertFile(t, testCA2, tempDir)
-
 	certPool, err := GetCertPool([]string{certFile1.Name(), certFile2.Name()})
 	if err != nil {
 		t.Errorf("unexpected error %v", err)
 	}
-
 	subj := certPool.Subjects()
 	var got []string
 	for i := range subj {
 		got = append(got, hex.EncodeToString(subj[i]))
 	}
-
 	expectedSubjects := []string{testCA1Subj, testCA2Subj}
 	if !reflect.DeepEqual(expectedSubjects, got) {
 		t.Errorf("expected %v, got %v", expectedSubjects, subj)

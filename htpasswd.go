@@ -9,14 +9,11 @@ import (
 	"os"
 )
 
-// lookup passwords in a htpasswd file
-// The entries must have been created with -s for SHA encryption
-
-type HtpasswdFile struct {
-	Users map[string]string
-}
+type HtpasswdFile struct{ Users map[string]string }
 
 func NewHtpasswdFromFile(path string) (*HtpasswdFile, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -24,13 +21,13 @@ func NewHtpasswdFromFile(path string) (*HtpasswdFile, error) {
 	defer r.Close()
 	return NewHtpasswd(r)
 }
-
 func NewHtpasswd(file io.Reader) (*HtpasswdFile, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	csv_reader := csv.NewReader(file)
 	csv_reader.Comma = ':'
 	csv_reader.Comment = '#'
 	csv_reader.TrimLeadingSpace = true
-
 	records, err := csv_reader.ReadAll()
 	if err != nil {
 		return nil, err
@@ -41,8 +38,9 @@ func NewHtpasswd(file io.Reader) (*HtpasswdFile, error) {
 	}
 	return h, nil
 }
-
 func (h *HtpasswdFile) Validate(user string, password string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	realPassword, exists := h.Users[user]
 	if !exists {
 		return false
