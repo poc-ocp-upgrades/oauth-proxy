@@ -11,11 +11,13 @@ import (
 )
 
 type UserMap struct {
-	usersFile string
-	m         unsafe.Pointer
+	usersFile	string
+	m		unsafe.Pointer
 }
 
 func NewUserMap(usersFile string, done <-chan bool, onUpdate func()) *UserMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	um := &UserMap{usersFile: usersFile}
 	m := make(map[string]bool)
 	atomic.StorePointer(&um.m, unsafe.Pointer(&m))
@@ -29,14 +31,16 @@ func NewUserMap(usersFile string, done <-chan bool, onUpdate func()) *UserMap {
 	}
 	return um
 }
-
 func (um *UserMap) IsValid(email string) (result bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := *(*map[string]bool)(atomic.LoadPointer(&um.m))
 	_, result = m[email]
 	return
 }
-
 func (um *UserMap) LoadAuthenticatedEmailsFile() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, err := os.Open(um.usersFile)
 	if err != nil {
 		log.Fatalf("failed opening authenticated-emails-file=%q, %s", um.usersFile, err)
@@ -58,11 +62,10 @@ func (um *UserMap) LoadAuthenticatedEmailsFile() {
 	}
 	atomic.StorePointer(&um.m, unsafe.Pointer(&updated))
 }
-
-func newValidatorImpl(domains []string, usersFile string,
-	done <-chan bool, onUpdate func()) func(string) bool {
+func newValidatorImpl(domains []string, usersFile string, done <-chan bool, onUpdate func()) func(string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validUsers := NewUserMap(usersFile, done, onUpdate)
-
 	var allowAll bool
 	for i, domain := range domains {
 		if domain == "*" {
@@ -71,7 +74,6 @@ func newValidatorImpl(domains []string, usersFile string,
 		}
 		domains[i] = fmt.Sprintf("@%s", strings.ToLower(domain))
 	}
-
 	validator := func(email string) (valid bool) {
 		if email == "" {
 			return
@@ -90,7 +92,9 @@ func newValidatorImpl(domains []string, usersFile string,
 	}
 	return validator
 }
-
 func NewValidator(domains []string, usersFile string) func(string) bool {
-	return newValidatorImpl(domains, usersFile, nil, func() {})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return newValidatorImpl(domains, usersFile, nil, func() {
+	})
 }

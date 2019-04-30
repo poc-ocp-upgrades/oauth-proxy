@@ -5,26 +5,28 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
 	"github.com/openshift/oauth-proxy/cookie"
 )
 
 type SessionState struct {
-	AccessToken  string
-	ExpiresOn    time.Time
-	RefreshToken string
-	Email        string
-	User         string
+	AccessToken	string
+	ExpiresOn	time.Time
+	RefreshToken	string
+	Email		string
+	User		string
 }
 
 func (s *SessionState) IsExpired() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !s.ExpiresOn.IsZero() && s.ExpiresOn.Before(time.Now()) {
 		return true
 	}
 	return false
 }
-
 func (s *SessionState) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := fmt.Sprintf("Session{%s", s.userOrEmail())
 	if s.AccessToken != "" {
 		o += " token:true"
@@ -37,23 +39,26 @@ func (s *SessionState) String() string {
 	}
 	return o + "}"
 }
-
 func (s *SessionState) EncodeSessionState(c *cookie.Cipher) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c == nil || s.AccessToken == "" {
 		return s.userOrEmail(), nil
 	}
 	return s.EncryptedString(c)
 }
-
 func (s *SessionState) userOrEmail() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u := s.User
 	if s.Email != "" {
 		u = s.Email
 	}
 	return u
 }
-
 func (s *SessionState) EncryptedString(c *cookie.Cipher) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if c == nil {
 		panic("error. missing cipher")
@@ -74,8 +79,9 @@ func (s *SessionState) EncryptedString(c *cookie.Cipher) (string, error) {
 	}
 	return fmt.Sprintf("%s|%s|%d|%s", s.userOrEmail(), a, s.ExpiresOn.Unix(), r), nil
 }
-
 func DecodeSessionState(v string, c *cookie.Cipher) (s *SessionState, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	chunks := strings.Split(v, "|")
 	if len(chunks) == 1 {
 		if strings.Contains(chunks[0], "@") {
@@ -84,12 +90,10 @@ func DecodeSessionState(v string, c *cookie.Cipher) (s *SessionState, err error)
 		}
 		return &SessionState{User: v}, nil
 	}
-
 	if len(chunks) != 4 {
 		err = fmt.Errorf("invalid number of fields (got %d expected 4)", len(chunks))
 		return
 	}
-
 	s = &SessionState{}
 	if c != nil && chunks[1] != "" {
 		s.AccessToken, err = c.Decrypt(chunks[1])

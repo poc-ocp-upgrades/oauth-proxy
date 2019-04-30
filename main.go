@@ -10,7 +10,6 @@ import (
 	"runtime"
 	"strings"
 	"time"
-
 	"github.com/BurntSushi/toml"
 	"github.com/mreiferson/go-options"
 	"github.com/openshift/oauth-proxy/providers"
@@ -18,9 +17,10 @@ import (
 )
 
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	flagSet := flag.NewFlagSet("oauth2_proxy", flag.ExitOnError)
-
 	emailDomains := StringArray{}
 	upstreams := StringArray{}
 	skipAuthRegex := StringArray{}
@@ -29,10 +29,8 @@ func main() {
 	openshiftCAs := StringArray{}
 	clientCA := ""
 	upstreamCAs := StringArray{}
-
 	config := flagSet.String("config", "", "path to config file")
 	showVersion := flagSet.Bool("version", false, "print version string")
-
 	flagSet.String("http-address", "127.0.0.1:4180", "[http://]<addr>:<port> or unix://<path> to listen on for HTTP clients")
 	flagSet.String("https-address", ":8443", "<addr>:<port> to listen on for HTTPS clients")
 	flagSet.Duration("upstream-flush", time.Duration(5)*time.Millisecond, "force flush upstream responses after this duration(useful for streaming responses). 0 to never force flush. Defaults to 5ms")
@@ -55,7 +53,6 @@ func main() {
 	flagSet.Bool("skip-auth-preflight", false, "will skip authentication for OPTIONS requests")
 	flagSet.Bool("ssl-insecure-skip-verify", false, "skip validation of certificates presented when using HTTPS")
 	flagSet.String("debug-address", "", "[http://]<addr>:<port> or unix://<path> to listen on for debug and requests")
-
 	flagSet.Var(&emailDomains, "email-domain", "authenticate emails with the specified domain (may be given multiple times). Use * to authenticate any email")
 	flagSet.String("client-id", "", "the OAuth Client ID: ie: \"123456.apps.googleusercontent.com\"")
 	flagSet.String("client-secret", "", "the OAuth Client Secret")
@@ -67,7 +64,6 @@ func main() {
 	flagSet.String("footer", "", "custom footer string. Use \"-\" to disable default footer.")
 	flagSet.String("proxy-prefix", "/oauth", "the url root path that this proxy should be nested under (e.g. /<oauth2>/sign_in)")
 	flagSet.Bool("proxy-websockets", true, "enables WebSocket proxying")
-
 	flagSet.String("openshift-group", "", "restrict logins to members of this group (or groups, if encoded as a JSON array).")
 	flagSet.String("openshift-sar", "", "require this encoded subject access review to authorize (may be a JSON list).")
 	flagSet.String("openshift-sar-by-host", "", "require this encoded subject access review to authorize (must be a JSON array).")
@@ -75,7 +71,6 @@ func main() {
 	flagSet.String("openshift-review-url", "", "Permission check endpoint (defaults to the subject access review endpoint)")
 	flagSet.String("openshift-delegate-urls", "", "If set, perform delegated authorization against the OpenShift API server. Value is a JSON map of path prefixes to v1beta1.ResourceAttribute records that must be granted to the user to continue. E.g. {\"/\":{\"resource\":\"pods\",\"namespace\":\"default\",\"name\":\"test\"}} only allows users who can see the pod test in namespace default.")
 	flagSet.String("openshift-service-account", "", "An optional name of an OpenShift service account to act as. If set, the injected service account info will be used to determine the client ID and client secret.")
-
 	flagSet.String("cookie-name", "_oauth_proxy", "the name of the cookie that the oauth_proxy creates")
 	flagSet.String("cookie-secret", "", "the seed string for secure cookies (optionally base64 encoded)")
 	flagSet.String("cookie-secret-file", "", "a file containing a cookie-secret")
@@ -84,9 +79,7 @@ func main() {
 	flagSet.Duration("cookie-refresh", time.Duration(0), "refresh the cookie after this duration; 0 to disable")
 	flagSet.Bool("cookie-secure", true, "set secure (HTTPS) cookie flag")
 	flagSet.Bool("cookie-httponly", true, "set HttpOnly cookie flag")
-
 	flagSet.Bool("request-logging", false, "Log requests to stdout")
-
 	flagSet.String("provider", "openshift", "OAuth provider")
 	flagSet.String("login-url", "", "Authentication endpoint")
 	flagSet.String("redeem-url", "", "Token redemption endpoint")
@@ -94,26 +87,19 @@ func main() {
 	flagSet.String("validate-url", "", "Access token validation endpoint")
 	flagSet.String("scope", "", "OAuth scope specification")
 	flagSet.String("approval-prompt", "force", "OAuth approval_prompt")
-
 	flagSet.String("signature-key", "", "GAP-Signature request signature key (algorithm:secretkey)")
 	flagSet.Var(&upstreamCAs, "upstream-ca", "paths to CA roots for the Upstream (target) Server (may be given multiple times, defaults to system trust store).")
-
 	providerOpenShift := openshift.New()
 	providerOpenShift.Bind(flagSet)
-
 	flagSet.Parse(os.Args[1:])
-
 	providerOpenShift.SetClientCAFile(clientCA)
 	providerOpenShift.SetReviewCAs(openshiftCAs)
-
 	if *showVersion {
 		fmt.Printf("oauth2_proxy v%s (built with %s)\n", VERSION, runtime.Version())
 		return
 	}
-
 	opts := NewOptions()
 	opts.TLSClientCAFile = clientCA
-
 	cfg := make(EnvOptions)
 	if *config != "" {
 		_, err := toml.DecodeFile(*config, &cfg)
@@ -123,7 +109,6 @@ func main() {
 	}
 	cfg.LoadEnvForStruct(opts)
 	options.Resolve(opts, flagSet, cfg)
-
 	var p providers.Provider
 	switch opts.Provider {
 	case "openshift":
@@ -132,16 +117,13 @@ func main() {
 		log.Printf("Invalid configuration: provider %q is not recognized", opts.Provider)
 		os.Exit(1)
 	}
-
 	err := opts.Validate(p)
 	if err != nil {
 		log.Printf("%s", err)
 		os.Exit(1)
 	}
-
 	validator := NewValidator(opts.EmailDomains, opts.AuthenticatedEmailsFile)
 	oauthproxy := NewOAuthProxy(opts, validator)
-
 	if len(opts.EmailDomains) != 0 && opts.AuthenticatedEmailsFile == "" {
 		if len(opts.EmailDomains) > 1 {
 			oauthproxy.SignInMessage = fmt.Sprintf("Authenticate using one of the following domains: %v", strings.Join(opts.EmailDomains, ", "))
@@ -149,7 +131,6 @@ func main() {
 			oauthproxy.SignInMessage = fmt.Sprintf("Authenticate using %v", opts.EmailDomains[0])
 		}
 	}
-
 	if opts.HtpasswdFile != "" {
 		log.Printf("using htpasswd file %s", opts.HtpasswdFile)
 		oauthproxy.HtpasswdFile, err = NewHtpasswdFromFile(opts.HtpasswdFile)
@@ -158,7 +139,6 @@ func main() {
 			log.Fatalf("FATAL: unable to open %s %s", opts.HtpasswdFile, err)
 		}
 	}
-
 	if opts.DebugAddress != "" {
 		mux := http.NewServeMux()
 		mux.Handle("/debug/pprof/", http.DefaultServeMux)
@@ -166,14 +146,10 @@ func main() {
 			log.Fatalf("FATAL: unable to serve debug %s: %v", opts.DebugAddress, http.ListenAndServe(opts.DebugAddress, mux))
 		}()
 	}
-
 	var h http.Handler = oauthproxy
 	if opts.RequestLogging {
 		h = LoggingHandler(os.Stdout, h, true)
 	}
-	s := &Server{
-		Handler: h,
-		Opts:    opts,
-	}
+	s := &Server{Handler: h, Opts: opts}
 	s.ListenAndServe()
 }
