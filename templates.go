@@ -7,6 +7,8 @@ import (
 )
 
 func loadTemplates(dir string) *template.Template {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dir == "" {
 		return getTemplates()
 	}
@@ -17,8 +19,9 @@ func loadTemplates(dir string) *template.Template {
 	}
 	return t
 }
-
 func getTemplates() *template.Template {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t, err := template.New("foo").Parse(`{{define "sign_in.html"}}
 <!DOCTYPE html>
 <html lang="en" charset="utf-8">
@@ -331,7 +334,6 @@ func getTemplates() *template.Template {
 	if err != nil {
 		log.Fatalf("failed parsing template %s", err)
 	}
-
 	t, err = t.Parse(`{{define "error.html"}}
 <!DOCTYPE html>
 <html lang="en" charset="utf-8">

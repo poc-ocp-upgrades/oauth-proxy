@@ -4,13 +4,11 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
-
 	"github.com/openshift/oauth-proxy/cookie"
 )
 
 type Provider interface {
 	Data() *ProviderData
-
 	ReviewUser(name, accessToken, host string) error
 	GetEmailAddress(*SessionState) (string, error)
 	Redeem(*url.URL, string, string) (*SessionState, error)
@@ -25,5 +23,4 @@ type Provider interface {
 	GetRedeemURL() (*url.URL, error)
 }
 
-// ErrPermissionDenied may be returned from Redeem() to indicate the user is not allowed to login.
 var ErrPermissionDenied = errors.New("permission denied")
